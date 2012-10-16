@@ -60,7 +60,7 @@ endif
 #Need to revisit the fastboot copy files
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/ti/archos_tablet/ueventd.rc:root/ueventd.rc
+	device/ti/archos_tablet/ueventd.rc:root/ueventd.rc \
 	device/ti/archos_tablet/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
 	device/ti/archos_tablet/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos_tablet/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
