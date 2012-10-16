@@ -1,0 +1,2 @@
+require board=Archos_Tablet
+
