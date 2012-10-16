@@ -27,9 +27,9 @@ $(call inherit-product, device/ti/archos_tablet/device.mk)
 $(call inherit-product-if-exists, vendor/ti/proprietary/omap4/ti-omap4-vendor.mk)
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := G9A101
-PRODUCT_DEVICE := A101
+PRODUCT_NAME := archos_tablet
+PRODUCT_DEVICE := archos_tablet
 PRODUCT_BRAND := Android
-PRODUCT_MODEL := Archos_Tablet
+PRODUCT_MODEL := archos_tablet
 PRODUCT_MANUFACTURER := archos
 
