@@ -22,7 +22,7 @@ DEVICE_PACKAGE_OVERLAYS := device/ti/archos_tablet/overlay
 
 PRODUCT_PACKAGES := \
     ti_omap4_ducati_bins
-#    libOMX_Core \
+    libOMX_Core \
 #    libOMX.TI.DUCATI1.VIDEO.DECODER
 
 # Tiler
