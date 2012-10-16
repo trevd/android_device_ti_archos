@@ -21,9 +21,9 @@ include device/ti/archos_tablet/Config.mk
 DEVICE_PACKAGE_OVERLAYS := device/ti/archos_tablet/overlay
 
 PRODUCT_PACKAGES := \
-    ti_omap4_ducati_bins
+    ti_omap4_ducati_bins \
     libOMX_Core \
-#    libOMX.TI.DUCATI1.VIDEO.DECODER
+    libOMX.TI.DUCATI1.VIDEO.DECODER
 
 # Tiler
 #PRODUCT_PACKAGES += \
@@ -49,7 +49,7 @@ PRODUCT_PACKAGES := \
 #    camera_test
 
 #PRODUCT_PACKAGES += \
-#    power.baze_tablet
+#    power.archos_tablet
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/ti/archos_tablet/boot/zImage
@@ -60,8 +60,7 @@ endif
 #Need to revisit the fastboot copy files
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/ti/archos_tablet/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
-	device/ti/archos_tablet/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
+	device/ti/archos_tablet/ueventd.rc:root/ueventd.rc
 	device/ti/archos_tablet/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
 	device/ti/archos_tablet/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos_tablet/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
@@ -78,6 +77,8 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 #	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 #	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+#	device/ti/archos_tablet/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
+#	device/ti/archos_tablet/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
 
 # to mount the external storage (sdcard)
 PRODUCT_COPY_FILES += \

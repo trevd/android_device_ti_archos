@@ -32,12 +32,19 @@
 /dev/tf_driver            0660   drmrpc    drmrpc
 /dev/tf_ctrl              0660   drmrpc    drmrpc
 
-#for FM v4l2 Radio
-/dev/radio0               0600   fmradio    fmradio
+# for 3G keys
+/dev/ttyUSB*              0660   root       radio
+/dev/ttyHS*               0660   root       radio
+
+# for HWC
+/dev/omaplfb              0660   system     system
+
+# for dvb adapter
+/dev/dvb*                 0660   system     media
 
 #for GCX
 /dev/gcioctl              0666   system     system
 
-# for DVP
-/dev/dvp_kgm_dsp          0666   system     system
-/dev/dvp_kgm_simcop       0666   system     system
+# for tsp debug interface
+/dev/touchplus_i2c_ts*    0666   system     input
+/dev/pixcir_i2c_ts*       0666   system     input
