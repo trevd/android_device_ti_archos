@@ -21,32 +21,32 @@ include device/ti/archos_tablet/Config.mk
 DEVICE_PACKAGE_OVERLAYS := device/ti/archos_tablet/overlay
 
 PRODUCT_PACKAGES := \
-    ti_omap4_ducati_bins \
     libOMX_Core \
-    libOMX.TI.DUCATI1.VIDEO.DECODER
+    libOMX.TI.DUCATI1.VIDEO.DECODER \
+    ti_omap4_ducati_bins 
 
 # Tiler
-#PRODUCT_PACKAGES += \
-#    libtimemmgr
+PRODUCT_PACKAGES += \
+    libtimemmgr
 
 #Lib Skia test
-#PRODUCT_PACKAGES += \
-#    SkLibTiJpeg_Test
+PRODUCT_PACKAGES += \
+    SkLibTiJpeg_Test
 
 # Camera
-#ifdef OMAP_ENHANCEMENT_CPCAM
-#PRODUCT_PACKAGES += \
-#    libcpcam_jni \
-#    com.ti.omap.android.cpcam
+ifdef OMAP_ENHANCEMENT_CPCAM
+PRODUCT_PACKAGES += \
+    libcpcam_jni \
+    com.ti.omap.android.cpcam
 
-#PRODUCT_COPY_FILES += \
-#    hardware/ti/omap4xxx/cpcam/com.ti.omap.android.cpcam.xml:system/etc/permissions/com.ti.omap.android.cpcam.xml
-#endif
+PRODUCT_COPY_FILES += \
+    hardware/ti/omap4xxx/cpcam/com.ti.omap.android.cpcam.xml:system/etc/permissions/com.ti.omap.android.cpcam.xml
+endif
 
-#PRODUCT_PACKAGES += \
-#    CameraOMAP4 \
-#    Camera \
-#    camera_test
+PRODUCT_PACKAGES += \
+    CameraOMAP4 \
+    Camera \
+    camera_test
 
 #PRODUCT_PACKAGES += \
 #    power.archos_tablet
@@ -62,6 +62,11 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	device/ti/archos_tablet/ueventd.rc:root/ueventd.rc \
 	device/ti/archos_tablet/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
+	device/ti/archos_tablet/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
+	device/ti/archos_tablet/init.rc:root/init.rc \
+	device/ti/archos_tablet/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
+	device/ti/archos_tablet/recovery.rc:root/recovery.rc \
+	device/ti/archos_tablet/abcbox:root/sbin/abcbox \
 	device/ti/archos_tablet/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos_tablet/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	device/ti/archos_tablet/bootanimation.zip:/system/media/bootanimation.zip \
@@ -74,40 +79,39 @@ PRODUCT_COPY_FILES += \
 	device/ti/archos_tablet/media_codecs.xml:system/etc/media_codecs.xml \
 	device/ti/archos_tablet/cyttsp4-i2c.idc:system/usr/idc/cyttsp4-i2c.idc \
 	device/ti/archos_tablet/wallpaper_info.xml:data/system/wallpaper_info.xml \
-	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
-#	frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-#	frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-#	device/ti/archos_tablet/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
-#	device/ti/archos_tablet/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
+	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml 
 
 # to mount the external storage (sdcard)
 PRODUCT_COPY_FILES += \
+	device/ti/archos_tablet/recovery.fstab:system/etc/recovery.fstab \
         device/ti/archos_tablet/vold.fstab:system/etc/vold.fstab
 
-#PRODUCT_PACKAGES += \
-#	lights.archos_tablet
+PRODUCT_PACKAGES += \
+	lights.archos_tablet
 
 #Remove this as it freezes at boot. Will re-enable once fixed
-#PRODUCT_PACKAGES += \
-#	sensors.archos_tablet \
-#	sensor.test
+PRODUCT_PACKAGES += \
+	sensors.archos_tablet \
+	sensor.test
 
-#PRODUCT_PACKAGES += \
-#       boardidentity \
-#       libboardidentity \
-#       libboard_idJNI \
-#       Board_id
+PRODUCT_PACKAGES += \
+       boardidentity \
+       libboardidentity \
+       libboard_idJNI \
+       Board_id
 
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
-        librs_jni
-#        LiveWallpapers \
-#        LiveWallpapersPicker \
-#        MagicSmokeWallpapers \
-#        VisualizationWallpapers \
+        librs_jni \
+        LiveWallpapers \
+        LiveWallpapersPicker \
+        MagicSmokeWallpapers \
+        VisualizationWallpapers \
 
 
 #PRODUCT_PACKAGES += \
@@ -156,8 +160,8 @@ PRODUCT_PACKAGES += \
 	setup_fs
 
 # Audio HAL module
-#PRODUCT_PACKAGES += audio.primary.omap4
-#PRODUCT_PACKAGES += audio.hdmi.omap4
+PRODUCT_PACKAGES += audio.primary.omap4
+PRODUCT_PACKAGES += audio.hdmi.omap4
 
 # Audioout libs
 PRODUCT_PACKAGES += libaudioutils
@@ -186,10 +190,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-    device/ti/archos_tablet/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml
-#	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-#	frameworks/base/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-#	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    device/ti/archos_tablet/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml 
 
 # BlueZ a2dp Audio HAL module
 PRODUCT_PACKAGES += audio.a2dp.default
@@ -213,8 +217,8 @@ PRODUCT_PACKAGES += \
 #PRODUCT_PROPERTY_OVERRIDES += \
 #	media.aac_51_output_enabled=true
 
-#PRODUCT_PACKAGES += \
-#	archos_tablet_hdcp_keys
+PRODUCT_PACKAGES += \
+	archos_tablet_hdcp_keys
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
@@ -222,8 +226,8 @@ $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 $(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ti-omap4-vendor.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
-#$(call inherit-product-if-exists, device/ti/common-open/s3d/s3d-products.mk)
-#$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos_tablet.mk)
+$(call inherit-product-if-exists, device/ti/common-open/s3d/s3d-products.mk)
+$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos_tablet.mk)
 
 # clear OMAP_ENHANCEMENT variables
 $(call ti-clear-vars)

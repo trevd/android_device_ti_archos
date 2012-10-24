@@ -14,6 +14,9 @@ on early-init
     mkdir /storage/usb0 0000 system system
     mkdir /storage/usb1 0000 system system
 
+on init
+    write /sys/devices/platform/omapdss/display1/hpd_enabled 1
+    
 on post-fs-data
 	# we will remap this as /storage/sdcard0 with the sdcard fuse tool
 	mkdir /data/media 0770 media_rw media_rw
@@ -39,13 +42,12 @@ on post-fs-data
 
 on boot
 	mount debugfs /sys/kernel/debug /sys/kernel/debug
+	write /sys/kernel/debug/pm_debug/smartreflex/sr_core/autocomp 1
+	write /sys/kernel/debug/pm_debug/smartreflex/sr_iva/autocomp 1
+	write /sys/kernel/debug/pm_debug/smartreflex/sr_mpu/autocomp 1
+
 	chmod 0666 /dev/pvrsrvkm
 	chmod 0444 /system/usr/keychars/omap4-keypad.kcm.bin
-	setprop ro.crypto.keyfile.userdata /dev/block/platform/omap/omap_hsmmc.1/by-name/crypto
-
-# change permissions for mtd device
-	chmod 0660 /dev/mtd/mtd0
-	chown media media /dev/mtd/mtd0
 
 # change permissions for i2c-2 device
 	chmod 0660 /dev/i2c-2
@@ -55,25 +57,21 @@ on boot
     chmod 0777 /dev/tiler
     chmod 0777 /dev/dmm
 
-# cpufreq interactive governor: timer 20ms, min sample 20ms, hispeed 800MHz
-	write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 20000
-	write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 20000
-	write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 800000
-
 # Boost the CPU for 30 secs during boot
 	write /sys/devices/system/cpu/cpufreq/interactive/boost_timeout 30000000
 	write /sys/devices/system/cpu/cpu0/cpufreq/boost_cpufreq 1
 
-# autosuspend root hubs immediatly after attached devices
-	write /sys/bus/usb/devices/usb1/power/autosuspend_delay_ms 0
-	write /sys/bus/usb/devices/usb2/power/autosuspend_delay_ms 0
-
-# Remove the Ultra Fast Media Card Reader on EHCI bus
-	write /sys/bus/usb/devices/1-1.1/remove 1
-
 # Set Remote wakeup flag for the two Hubs on the Tablet board
 	write /sys/bus/usb/devices/1-1/power/wakeup enabled
 	write /sys/bus/usb/devices/1-1.2/power/wakeup enabled
+	
+# bluetooth
+    insmod /system/lib/modules/bluetooth/compat.ko
+    insmod /system/lib/modules/bluetooth/bluetooth.ko
+    insmod /system/lib/modules/bluetooth/rfcomm.ko
+    insmod /system/lib/modules/bluetooth/hidp.ko
+    insmod /system/lib/modules/bluetooth/btwilink.ko
+    insmod /system/lib/modules/bluetooth/bnep.ko   
 
 # wi-fi
 	mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -89,11 +87,9 @@ on boot
 on fs
 	mkdir /factory 0775 radio radio
 	mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/system /system wait ro
-	setprop ro.crypto.tmpfs_options size=128m,mode=0771,uid=1000,gid=1000
 	mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/userdata /data wait noatime nosuid nodev nomblk_io_submit
 	mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/cache /cache wait noatime nosuid nodev nomblk_io_submit
 	mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/efs /factory wait ro
-	setprop ro.crypto.fuse_sdcard true
 
 # H264 Encoder Profile setting
 # 1 - Base Profile
@@ -103,6 +99,7 @@ on fs
 
 # change permissions for ION driver
     chmod 0777 /dev/ion
+    chmod 0777 /dev/dce
 
 # We chown/chmod /factory because mount is run as root + defaults
 	chown radio radio /factory
@@ -142,11 +139,78 @@ on fs
     chmod 0600 /dev/ttyO1
     chown bluetooth bluetooth /dev/ttyO1
 
-# change permissions for S3D hardware
+    # change permissions for overlay managers and display devices
+    chown system system /sys/devices/platform/omapdss/display0/enabled
+    chown system system /sys/devices/platform/omapdss/display1/enabled
+    chown system system /sys/devices/platform/omapdss/display1/hpd_enabled
+    chown system system /sys/devices/platform/omapdss/display2/enabled
+    chown system system /sys/devices/platform/omapdss/display3/enabled
+    chown system system /sys/devices/platform/omapdss/display0/name
+    chown system system /sys/devices/platform/omapdss/display1/name
+    chown system system /sys/devices/platform/omapdss/display2/name
+    chown system system /sys/devices/platform/omapdss/display3/name
+    chown system system /sys/devices/platform/omapdss/overlay0/manager
+    chown system system /sys/devices/platform/omapdss/overlay1/manager
+    chown system system /sys/devices/platform/omapdss/overlay2/manager
+    chown system system /sys/devices/platform/omapdss/overlay3/manager
+    chown system system /sys/devices/platform/omapdss/overlay0/zorder
+    chown system system /sys/devices/platform/omapdss/overlay1/zorder
+    chown system system /sys/devices/platform/omapdss/overlay2/zorder
+    chown system system /sys/devices/platform/omapdss/overlay3/zorder
+    
+    #change permissions on overlay1, 2 and 3 for hdmi setup
+    chown system system /sys/devices/platform/omapdss/overlay1/position
+    chown system system /sys/devices/platform/omapdss/overlay1/input_size
+    chown system system /sys/devices/platform/omapdss/overlay1/output_size
+    chown system system /sys/devices/platform/omapdss/overlay2/position
+    chown system system /sys/devices/platform/omapdss/overlay2/input_size
+    chown system system /sys/devices/platform/omapdss/overlay2/output_size
+    chown system system /sys/devices/platform/omapdss/overlay3/position
+    chown system system /sys/devices/platform/omapdss/overlay3/input_size
+    chown system system /sys/devices/platform/omapdss/overlay3/output_size
+    
+    # change permissions for manager tranparency parameters
+    chown system system /sys/devices/platform/omapdss/manager0/name
+    chown system system /sys/devices/platform/omapdss/manager0/display
+    chown system system /sys/devices/platform/omapdss/manager1/name
+    chown system system /sys/devices/platform/omapdss/manager1/display
+    chown system system /sys/devices/platform/omapdss/manager2/name
+    chown system system /sys/devices/platform/omapdss/manager2/display
+    chown system system /sys/devices/platform/omapdss/overlay0/enabled
+    chown system system /sys/devices/platform/omapdss/overlay1/enabled
+    chown system system /sys/devices/platform/omapdss/overlay2/enabled
+    chown system system /sys/devices/platform/omapdss/overlay3/enabled
+
+    # change permissions for display timings to get the resolutions
+    chown system system /sys/devices/platform/omapdss/display0/timings
+    chown system system /sys/devices/platform/omapdss/display1/timings
+    chown system system /sys/devices/platform/omapdss/display2/timings
+    chown system system /sys/devices/platform/omapdss/display3/timings
+
+    # change permissions for overlay setting
+    chown system system /sys/module/omapdss/parameters/overscan_percent
+
+    # change permissions for s3d parameters (let hwc write)
     chown system system /sys/devices/platform/omapdss/display0/s3d_enable
     chown system system /sys/devices/platform/omapdss/display1/s3d_enable
     chown system system /sys/devices/platform/omapdss/display1/s3d_type
+    
+    symlink /dev/ttyO0 /dev/tigps
 
+# setup the hdmi interface
+# Enable hotplug detection for HDMI
+    write /sys/devices/platform/omapdss/display1/hpd_enabled 1
+    
+
+# Change permissions for FB overlays for HDMI UI Cloning
+    chown system system /sys/class/graphics/fb0/overlays
+    chown system system /sys/class/graphics/fb0/fit_to_screen
+    chown system system /sys/class/graphics/fb1/overlays
+   
+
+# Disable GPS
+    write /sys/devices/platform/nl5550.0/gps_nshutdown/value 0
+   
 # Change permissions on the governor (this is for debug only)
     chmod 444 /proc/cmdline
 
@@ -165,16 +229,7 @@ service setup_fs /system/bin/setup_fs \
         group root
         oneshot
 
-#shared transport user space mgr service for Bluetooth, FM and GPS
-service uim /system/bin/uim-sysfs
-	class core
-	user bluetooth
-	group bluetooth net_bt_admin
 
-###################################################
-# MSHIELD SMC Daemon - component required to store persistent data coming
-#   from the SMC PA to the device persistent storage
-###################################################
 service tf_daemon /system/bin/tf_daemon \
     -d -c /vendor/etc/smc_normal_world_android_cfg.ini
     class main
@@ -182,17 +237,6 @@ service tf_daemon /system/bin/tf_daemon \
     group root
     oneshot
     disabled
-
-###################################################
-# MSHIELD SMC PA Control - installs the SMC PA into the Secure Environment
-###################################################
-service smc_pa /system/bin/smc_pa_ctrl \
-    -c /vendor/etc/smc_normal_world_android_cfg.ini \
-    start /vendor/firmware/smc_pa.ift
-    class core
-    user root
-    group root
-    oneshot
 
 # bugreport is triggered by holding down volume down, volume up and home
 service bugreport /system/bin/bugmailer.sh -v
@@ -215,6 +259,11 @@ service p2p_supplicant /system/bin/wpa_supplicant \
 	disabled
 	oneshot
 
+service akmd /system/bin/akmd8975 -m 6
+    class core
+    user compass
+    group misc
+	
 service wpa_supplicant /system/bin/wpa_supplicant \
 	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
 	class main
@@ -273,6 +322,11 @@ service navl_server /system/bin/navd --android_log NAVD  -p3 -nav\"-c/system/etc
 	class main
 	disabled
 	oneshot
+
+	
+service rilPos-daemon /system/bin/rilposd -l /system/lib/librilpos.so -- -c CAIF -p 3000 -h localhost
+       disabled
+       oneshot
 
 # Texas Instruments Shared Memory Service
 service shm_service /system/bin/shm_service --no-fork

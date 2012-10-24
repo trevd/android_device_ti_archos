@@ -59,4 +59,4 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/sdk.mk)
 
 # Real name of the add-on. This is the name used to build the add-on.
 # Use 'make PRODUCT-<PRODUCT_NAME>-sdk_addon' to build the add-on.
-PRODUCT_NAME := ti_omap_addon
+PRODUCT_NAME := ti_archos_addon

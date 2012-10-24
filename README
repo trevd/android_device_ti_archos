@@ -1,0 +1,28 @@
+Archos - A101S 
+
+This is a device tree for Archos G9 Tablets. 
+
+Building JellyBean:
+Use the Android Sources located at http://omapzoom.org as a base 
+
+Kernel
+------
+prebuilt kernel can be found in boot/zImage.
+git clone -b linux-ics-3.0.21 http://gitorious.org/archos/archos-gpl-gen9-kernel-ics
+
+PowerVR OpenGLES Drivers
+------------------------
+Sources for PowerVR Kernel Modules are located at device/ti/proprietary-open/omap4/sgx_src
+some patching of ION structs in ion.h kernel headers maybe required.
+
+init.rc
+-------
+The init.rc is designed to handle both recovery and normal booting.
+persist.sys.bootmode recovery or persist.sys.bootmode android
+
+
+
+
+
+
+
