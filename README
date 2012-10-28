@@ -5,6 +5,20 @@ This is a device tree for Archos G9 Tablets.
 Building JellyBean:
 Use the Android Sources located at http://omapzoom.org as a base 
 
+
+Branch names
+------------
+As much as is reasonable i think mirror the branch names of the omapzoom.org branch
+we intend to build against is useful.
+
+
+buildspec.mk
+------------
+To Avoid those precious extra seconds require by lunch you can use make of the buildspec.mk
+to provide predefined build info. either copy to the root of the android sources
+or symlink - The Google buildsystem documentation say the buildspec.mk should never be
+committed. I think that's bollocks.
+
 Kernel
 ------
 prebuilt kernel can be found in boot/zImage.
