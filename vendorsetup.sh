@@ -20,5 +20,5 @@
 # In particular, you can add lunch options with the add_lunch_combo
 # function: add_lunch_combo generic-eng
 
-add_lunch_combo archos_tablet-userdebug
-add_lunch_combo archos_tablet-eng
+add_lunch_combo archos-userdebug
+add_lunch_combo archos-eng

@@ -19,8 +19,10 @@ LOCAL_C_INCLUDES := frameworks/native/cmds/dumpstate
 
 LOCAL_SRC_FILES := dumpstate.c
 
-LOCAL_MODULE := libdumpstate.archos_tablet
+LOCAL_MODULE := libdumpstate.archos
 
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_STATIC_LIBRARY)
+
+#-include vendor/ti/archos/BoardConfigVendor.mk

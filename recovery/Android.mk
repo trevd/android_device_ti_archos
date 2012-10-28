@@ -8,7 +8,7 @@
 #LOCAL_SRC_FILES := recovery_ui.cpp
 
 # should match TARGET_RECOVERY_UI_LIB set in BoardConfig.mk
-LOCAL_MODULE := librecovery_ui_archos_tablet
+LOCAL_MODULE := librecovery_ui_archos
 
 #include $(BUILD_STATIC_LIBRARY)
 
@@ -21,7 +21,7 @@ LOCAL_MODULE := librecovery_ui_archos_tablet
 #LOCAL_SRC_FILES := recovery_updater.c bootloader.c
 
 # should match TARGET_RECOVERY_UPDATER_LIBS set in BoardConfig.mk
-#LOCAL_MODULE := librecovery_updater_archos_tablet
+#LOCAL_MODULE := librecovery_updater_archos
 
 #include $(BUILD_STATIC_LIBRARY)
 
