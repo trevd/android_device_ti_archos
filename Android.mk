@@ -17,10 +17,10 @@ LOCAL_PATH := $(call my-dir)
 # protect makefile from other boards
 # if some modules are built directly from this directory (not subdirectories),
 # their rules should be written here.
-ifeq ($(TARGET_DEVICE),archos_tablet)
+ifeq ($(TARGET_DEVICE),archos)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := archos_tablet_hdcp_keys
+LOCAL_MODULE := archos_hdcp_keys
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_CLASS := FAKE
 LOCAL_MODULE_SUFFIX := -timestamp

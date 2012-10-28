@@ -26,10 +26,10 @@
 #
 
 # define OMAP_ENHANCEMENT variables
-include device/ti/archos_tablet/Config.mk
+include device/ti/archos/Config.mk
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_archos_tablet.mk
+    $(LOCAL_DIR)/full_archos.mk
 
 ifdef OMAP_ENHANCEMENT_CPCAM
 PRODUCT_MAKEFILES += \

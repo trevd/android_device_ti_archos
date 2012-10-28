@@ -15,7 +15,7 @@
 #
 
 # define OMAP_ENHANCEMENT variables
-include device/ti/archos_tablet/Config.mk
+include device/ti/archos/Config.mk
 
 # These two variables are set first, so they can be overridden
 # by BoardConfigVendor.mk
@@ -44,9 +44,9 @@ TARGET_NO_BOOTLOADER := true
 
 TARGET_NO_RADIOIMAGE := true
 TARGET_BOARD_PLATFORM := omap4
-#TARGET_BOOTLOADER_BOARD_NAME := archos_tablet
+#TARGET_BOOTLOADER_BOARD_NAME := archos
 
-BOARD_EGL_CFG := device/ti/archos_tablet/egl.cfg
+BOARD_EGL_CFG := device/ti/archos/egl.cfg
 
 #BOARD_USES_HGL := true
 #BOARD_USES_OVERLAY := true
@@ -55,7 +55,7 @@ USE_OPENGL_RENDERER := true
 # Recovery
 #TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 # device-specific extensions to the updater binary
-#TARGET_RELEASETOOLS_EXTENSIONS := device/ti/archos_tablet
+#TARGET_RELEASETOOLS_EXTENSIONS := device/ti/archos
 
 #BOARD_USES_SECURE_SERVICES := true
 
@@ -87,7 +87,7 @@ endif
 #Set 32 byte cache line to true
 ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
-BOARD_LIB_DUMPSTATE := libdumpstate.archos_tablet
+BOARD_LIB_DUMPSTATE := libdumpstate.archos
 
 BOARD_VENDOR_TI_GPS_HARDWARE := omap4
 BOARD_GPS_LIBRARIES := libgps

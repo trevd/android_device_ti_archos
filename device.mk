@@ -15,10 +15,10 @@
 #
 
 # define OMAP_ENHANCEMENT variables
-include device/ti/archos_tablet/Config.mk
+include device/ti/archos/Config.mk
 
 
-DEVICE_PACKAGE_OVERLAYS := device/ti/archos_tablet/overlay
+DEVICE_PACKAGE_OVERLAYS := device/ti/archos/overlay
 
 PRODUCT_PACKAGES := \
     libOMX_Core \
@@ -49,10 +49,10 @@ PRODUCT_PACKAGES += \
     camera_test
 
 #PRODUCT_PACKAGES += \
-#    power.archos_tablet
+#    power.archos
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/ti/archos_tablet/boot/zImage
+LOCAL_KERNEL := device/ti/archos/boot/zImage
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -60,40 +60,40 @@ endif
 #Need to revisit the fastboot copy files
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/ti/archos_tablet/ueventd.rc:root/ueventd.rc \
-	device/ti/archos_tablet/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
-	device/ti/archos_tablet/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
-	device/ti/archos_tablet/init.rc:root/init.rc \
-	device/ti/archos_tablet/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
-	device/ti/archos_tablet/recovery.rc:root/recovery.rc \
-	device/ti/archos_tablet/abcbox:root/sbin/abcbox \
-	device/ti/archos_tablet/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
-	device/ti/archos_tablet/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-	device/ti/archos_tablet/bootanimation.zip:/system/media/bootanimation.zip \
-	device/ti/archos_tablet/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
-	device/ti/archos_tablet/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
+	device/ti/archos/ueventd.rc:root/ueventd.rc \
+	device/ti/archos/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
+	device/ti/archos/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
+	device/ti/archos/init.rc:root/init.rc \
+	device/ti/archos/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
+	device/ti/archos/recovery.rc:root/recovery.rc \
+	device/ti/archos/abcbox:root/sbin/abcbox \
+	device/ti/archos/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
+	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+	device/ti/archos/bootanimation.zip:/system/media/bootanimation.zip \
+	device/ti/archos/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
+	device/ti/archos/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
 	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	device/ti/common-open/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	device/ti/archos_tablet/media_profiles.xml:system/etc/media_profiles.xml \
-	device/ti/archos_tablet/media_codecs.xml:system/etc/media_codecs.xml \
-	device/ti/archos_tablet/cyttsp4-i2c.idc:system/usr/idc/cyttsp4-i2c.idc \
-	device/ti/archos_tablet/wallpaper_info.xml:data/system/wallpaper_info.xml \
+	device/ti/archos/media_profiles.xml:system/etc/media_profiles.xml \
+	device/ti/archos/media_codecs.xml:system/etc/media_codecs.xml \
+	device/ti/archos/cyttsp4-i2c.idc:system/usr/idc/cyttsp4-i2c.idc \
+	device/ti/archos/wallpaper_info.xml:data/system/wallpaper_info.xml \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml 
 
 # to mount the external storage (sdcard)
 PRODUCT_COPY_FILES += \
-	device/ti/archos_tablet/recovery.fstab:system/etc/recovery.fstab \
-        device/ti/archos_tablet/vold.fstab:system/etc/vold.fstab
+	device/ti/archos/recovery.fstab:system/etc/recovery.fstab \
+        device/ti/archos/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_PACKAGES += \
-	lights.archos_tablet
+	lights.archos
 
 #Remove this as it freezes at boot. Will re-enable once fixed
 PRODUCT_PACKAGES += \
-	sensors.archos_tablet \
+	sensors.archos \
 	sensor.test
 
 PRODUCT_PACKAGES += \
@@ -190,7 +190,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-    device/ti/archos_tablet/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    device/ti/archos/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml 
@@ -218,7 +218,7 @@ PRODUCT_PACKAGES += \
 #	media.aac_51_output_enabled=true
 
 PRODUCT_PACKAGES += \
-	archos_tablet_hdcp_keys
+	archos_hdcp_keys
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
@@ -227,7 +227,7 @@ $(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ti-omap4-vendor.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 $(call inherit-product-if-exists, device/ti/common-open/s3d/s3d-products.mk)
-$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos_tablet.mk)
+$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos.mk)
 
 # clear OMAP_ENHANCEMENT variables
 $(call ti-clear-vars)
