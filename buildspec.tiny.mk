@@ -79,8 +79,8 @@ endif
 
 # If you have a special place to put your ouput files, set this, otherwise
 # it goes to <build-root>/out
-#OUT_DIR:=/tmp/stuff
-
+OUT_DIR:=tinyout
+#gedio
 # If you want to always set certain system properties, add them to this list.
 # E.g., "ADDITIONAL_BUILD_PROPERTIES += ro.prop1=5 prop2=value"
 # This mechanism does not currently support values containing spaces.
@@ -102,6 +102,12 @@ endif
 #ifndef ENABLE_SVG
 #ENABLE_SVG:=false
 #endif
+
+ifndef BUILD_TINY_ANDROID
+BUILD_TINY_ANDROID:=true
+endif
+
+
 
 # when the build system changes such that this file must be updated, this
 # variable will be changed.  After you have modified this file with the new

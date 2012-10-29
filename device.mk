@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 # define OMAP_ENHANCEMENT variables
 include device/ti/archos/Config.mk
 
@@ -231,3 +230,4 @@ $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos
 
 # clear OMAP_ENHANCEMENT variables
 $(call ti-clear-vars)
+
