@@ -62,9 +62,7 @@ PRODUCT_COPY_FILES += \
 	device/ti/archos/ueventd.rc:root/ueventd.rc \
 	device/ti/archos/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
 	device/ti/archos/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
-	device/ti/archos/init.rc:root/init.rc \
 	device/ti/archos/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
-	device/ti/archos/recovery.rc:root/recovery.rc \
 	device/ti/archos/abcbox:root/sbin/abcbox \
 	device/ti/archos/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
