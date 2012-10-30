@@ -25,6 +25,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/ti/archos/device.mk)
 $(call inherit-product-if-exists, vendor/ti/proprietary/omap4/ti-omap4-vendor.mk)
+$(call inherit-product-if-exists, vendor/ti/archos/Config.mk)
 
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := archos

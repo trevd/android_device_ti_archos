@@ -58,7 +58,6 @@ endif
 #Need to revisit the fastboot copy files
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/ti/archos/ueventd.rc:root/ueventd.rc \
 	device/ti/archos/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
 	device/ti/archos/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
 	device/ti/archos/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
@@ -224,7 +223,3 @@ $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ti-omap4-vend
 $(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 $(call inherit-product-if-exists, device/ti/common-open/s3d/s3d-products.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos.mk)
-
-# clear OMAP_ENHANCEMENT variables
-$(call ti-clear-vars)
-

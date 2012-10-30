@@ -36,5 +36,3 @@ PRODUCT_MAKEFILES += \
     $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
 endif
 
-# clear OMAP_ENHANCEMENT variables
-$(call ti-clear-vars)
