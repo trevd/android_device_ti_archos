@@ -1,10 +1,11 @@
-# system.prop for archos tablet 
+# system.prop for blaze tablet 
 # This overrides settings in the products/generic/system.prop file
 #
 # rild.libpath=/system/lib/libreference-ril.so
 # rild.libargs=-d /dev/ttyS0
-#com.ti.omap_enhancement=true
-#com.ti.omap_enhancement_s3d=true
+com.ti.omap_enhancement=true
+com.ti.omap_enhancement_s3d=true
+com.ti.blueti_enhancement=true
 dalvik.vm.heapstartsize=5m
 dalvik.vm.heapgrowthlimit=48m
 dalvik.vm.heapsize=256m
@@ -20,4 +21,6 @@ omap.audio.mic.main=DMic0L
 omap.audio.mic.sub=DMic0R
 omap.audio.power=PingPong
 #define a property for hdmi sink channel count
-#dolby.audio.hdmi.channels=0
+dolby.audio.hdmi.channels=0
+#System property for dolby 5.1 codec integration
+dolby.audio.sink.info=speaker
