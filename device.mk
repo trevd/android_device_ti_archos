@@ -43,12 +43,12 @@ PRODUCT_COPY_FILES += \
 endif
 
 PRODUCT_PACKAGES += \
-    CameraOMAP4 \
     Camera \
     camera_test
 
-#PRODUCT_PACKAGES += \
-#    power.archos
+        #CameraOMAP4 \
+PRODUCT_PACKAGES += \
+    power.archos
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 LOCAL_KERNEL := device/ti/archos/boot/zImage

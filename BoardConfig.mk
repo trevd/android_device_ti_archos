@@ -18,6 +18,8 @@
 # These two variables are set first, so they can be overridden
 # by BoardConfigVendor.mk
 BOARD_USES_GENERIC_AUDIO := true
+BUILD_EMULATOR_CAMERA_HAL := false
+
 USE_CAMERA_STUB := false
 
 OMAP_ENHANCEMENT_MULTIGPU := true
