@@ -30,9 +30,9 @@ PRODUCT_PACKAGES += \
 
 #Lib Skia test
 PRODUCT_PACKAGES += \
-    SkLibTiJpeg_Test
-
-# Camera
+    SkLibTiJpeg_Test \
+	
+	
 ifdef OMAP_ENHANCEMENT_CPCAM
 PRODUCT_PACKAGES += \
     libcpcam_jni \
@@ -44,9 +44,8 @@ endif
 
 PRODUCT_PACKAGES += \
     Camera \
-    camera_test
-
-        #CameraOMAP4 \
+    camera_test \
+    CameraOMAP4 
 PRODUCT_PACKAGES += \
     power.archos
 
