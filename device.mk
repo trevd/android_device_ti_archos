@@ -44,8 +44,8 @@ endif
 
 PRODUCT_PACKAGES += \
     Camera \
-    camera_test \
     CameraOMAP4 
+    #camera_test \
 PRODUCT_PACKAGES += \
     power.archos
 
