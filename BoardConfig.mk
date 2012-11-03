@@ -58,6 +58,7 @@ USE_OPENGL_RENDERER := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/ti/archos/recovery/recovery_keys.c
+ADDITIONAL_RECOVERY_FILES +=  ../../system/core/init/builtins.c 
 BOARD_HAS_NO_SELECT_BUTTON := true
 #BOARD_USES_SECURE_SERVICES := true
 
