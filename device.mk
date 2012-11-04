@@ -59,9 +59,8 @@ endif
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
 	device/ti/archos/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
-	device/ti/archos/archos-common.rc:root/archos-common.rc \
-	device/ti/archos/init.archosa101sboard.rc:root/init.archosa101sboard.rc \
-	device/ti/archos/init.archosa101sboard.usb.rc:root/init.archosa101sboard.usb.rc \
+	device/ti/archos/init.archos-common.rc:root/init.archos-common.rc \
+	device/ti/archos/init.archos-common.rc:root/init.recovery.rc \
 	device/ti/archos/abcbox:root/sbin/abcbox \
 	device/ti/archos/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \

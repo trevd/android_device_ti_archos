@@ -1,0 +1,34 @@
+## Removed Disabled to start recovery automatically
+## CWM Recovery disabled as we are boot full android. It should be possible to soft boot into recovery 
+## if android is stopped properly.
+service recovery /sbin/recovery
+    disabled        
+
+### The reboot_into service is a new service which manages makes sure we reboot into
+### sde mode
+service reboot_into /sbin/reboot_into -s sde
+    class core
+    oneshot   
+    
+## For archos testing run adb as root
+on property:service.adb.root=1
+    write /sys/class/android_usb/android0/enable 0
+    restart adbd
+    write /sys/class/android_usb/android0/enable 1
+
+on property:persist.sys.bootmode=* 
+    setprop sys.bootmode ${persist.sys.bootmode}
+    
+on property:sys.bootmode=recovery
+    mkdir /sdcard
+    mkdir /etc
+    symlink /sbin/recovery.fstab /etc/recovery.fstab
+    start reboot_into
+    start recovery
+
+on property:sys.bootmode=android
+    symlink /storage/sdcard0 /sdcard
+    symlink /system/etc /etc
+    class_start core
+    class_start main
+    

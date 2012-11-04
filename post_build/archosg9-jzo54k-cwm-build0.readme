@@ -1,0 +1,57 @@
+Android 4.1.2 JZO54K + CWM 6.1.4 - BUILD0 - Archos G9 Series - SDE Rom 2012-11-04 
+
+WARNING - THIS IS FOR TESTING PURPOSES ONLY AND IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND
+
+Requirements
+------------
+Archos G9 Series Android Tablet with unofficial or official SDE Firmware installed
+4GB Free Internal Storage ( SD Version )
+
+Installation - A101/80S ( SDCARD VERSION )
+------------------------------------------
+Installation and initial Setup is carried out using the android debug bridge ( adb ) and is 
+a manual process. It can be completed while your tablet is booted into android either via the
+Stock Archos Rom or A Standard SDE based. If you are using the Stock Archos Rom you must have
+"temp root" applied and adb must running and have write access to /data directory on your tablet
+
+Section 1 - Preflight Checks
+The steps in this section check that you are able to create the empty ext4 filesystem images
+in /data directory and it is mount at the correct point
+1. Load Android into either Temp Root Stock or SDE Rom
+2. Connect Your Device and enable Usb Debugging
+3. Check adb is running as root using the following command "adb shell whoami"
+   This should return "root"
+	
+4. Check the mount point of /data using the following command 'adb shell "mount | grep /data"'
+   This should return "/dev/block/mmcblk0p4 on /data type ext4 (rw,nosuid,noatime,user_xattr,barrier=1,data=ordered)"
+   
+5. Check available space on your data partition with the following command "adb shell "df -h /data"
+   The results will be specific to you system but should return something similar to
+   Filesystem                Size      Used Available Use% Mounted on
+   /dev/block/mmcblk0p4      6.6G      1.6G      5.0G  24% /data
+
+If Everything checks out ok you should are ready to move on to Section 2
+
+Section 2 - Create Ext4 FileSystem Images
+1. Create a 500MB FileSystem Image for the cache partition 
+	adb shell "dd if=/dev/zero of=/data/CAC bs=1024 count=500000"
+2. Check the image was created successfully with the following command "adb shell ls -lh /data/CAC"
+   This should return :
+   "-rw-rw-rw-    1 root     root       488.3M Nov  4 10:23 /data/CAC"
+3. Loop Mount the image
+	lo
+
+
+
+5. Create a raw DATA image in the /data partition using the dd command
+	adb shell dd if=
+
+
+
+
+
+
+
+
+
+

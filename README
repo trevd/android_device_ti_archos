@@ -37,7 +37,7 @@ The post_build directory
 ------------------------
 While testing and refining the device bringup etc many files get changed from the originals
 the post_build directory reflects the current state of the device. When it is empty the build process
-should make an image which can be push to the device without any issue
+should make an image which can be pushed to the device without any issue
 
 
 
