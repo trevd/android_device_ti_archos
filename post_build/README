@@ -1,0 +1,14 @@
+The Post Build Directory
+------------------------
+
+Expect the contents of this directory to change
+
+initramfs.cpio.lzo - Current Bootable ramdisk with recovery, to switch between modes use p
+persist.sys.bootmode [ android | recovery ]
+
+any other input will setmode to android.
+
+Currently using archos stock kernel for test... This will change to custom build with JellyBean
+requirements e.g Tracing
+
+
