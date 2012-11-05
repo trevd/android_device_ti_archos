@@ -62,7 +62,6 @@ PRODUCT_COPY_FILES += \
 	device/ti/archos/init.archos-common.rc:root/init.archos-common.rc \
 	device/ti/archos/init.archos-common.rc:root/init.recovery.rc \
 	device/ti/archos/abcbox:root/sbin/abcbox \
-	device/ti/archos/qtouch-touchscreen.idc:system/usr/idc/qtouch-touchscreen.idc \
 	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	device/ti/archos/bootanimation.zip:/system/media/bootanimation.zip \
 	device/ti/archos/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
@@ -72,12 +71,18 @@ PRODUCT_COPY_FILES += \
 	device/ti/common-open/audio/audio_policy.conf:system/etc/audio_policy.conf \
 	device/ti/archos/media_profiles.xml:system/etc/media_profiles.xml \
 	device/ti/archos/media_codecs.xml:system/etc/media_codecs.xml \
-	device/ti/archos/cyttsp4-i2c.idc:system/usr/idc/cyttsp4-i2c.idc \
 	device/ti/archos/wallpaper_info.xml:data/system/wallpaper_info.xml \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml 
 
+PRODUCT_COPY_FILES += \
+	device/ti/archos/idc/cpt_i2c_tsp.idc:system/usr/idc/cpt_i2c_tsp.idc \                                                                                                                                                                                                                                                                
+	device/ti/archos/idc/cypress-tma340.idc:system/usr/idc/cypress-tma340.idc \
+	device/ti/archos/idc/pixcir_i2c_tsp.idc:system/usr/idc/pixcir_i2c_tsp.idc \
+	device/ti/archos/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
+	device/ti/archos/idc/qwerty.idc:system/usr/idc/qwerty.idc \
+	device/ti/archos/idc/tr16c0_i2c_tsp.idc:system/usr/idc/tr16c0_i2c_tsp.idc
 # to mount the external storage (sdcard)
 PRODUCT_COPY_FILES += \
 	device/ti/archos/recovery.fstab:system/etc/recovery.fstab \
