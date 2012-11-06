@@ -1,6 +1,7 @@
 # mount point   fstype          device
 
-/cache          ext4            /dev/block/loop0
-/data           ext4            /dev/block/loop1
+/data           ext4            /dev/block/loop0
+/cache          ext4            /dev/block/loop1
 /system         ext4            /dev/block/loop2
-/sdcard         ext4            /dev/block/loop3
+/sdcard         vfat            /dev/block/mmcblk1p1
+

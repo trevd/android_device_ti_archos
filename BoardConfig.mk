@@ -16,10 +16,10 @@
 
 # define OMAP_ENHANCEMENT variables
 include device/ti/archos/Config.mk
-$(info OMAP_ENHANCEMENT $(OMAP_ENHANCEMENT))
+#$(info OMAP_ENHANCEMENT $(OMAP_ENHANCEMENT))
 # These two variables are set first, so they can be overridden
 # by BoardConfigVendor.mk
-BOARD_USES_GENERIC_AUDIO := true
+BOARD_USES_GENERIC_AUDIO := false
 BUILD_EMULATOR_CAMERA_HAL := false
 
 USE_CAMERA_STUB := false
@@ -29,7 +29,7 @@ OMAP_ENHANCEMENT := true
 
 ENHANCED_DOMX := true
 BLTSVILLE_ENHANCEMENT := true
-#USE_ITTIAM_AAC := true
+USE_ITTIAM_AAC := true
 # Use the non-open-source parts, if they're present
 #-include vendor/ti/archos/BoardConfigVendor.mk
 
@@ -54,12 +54,10 @@ BOARD_EGL_CFG := device/ti/archos/egl.cfg
 #BOARD_USES_HGL := true
 #BOARD_USES_OVERLAY := true
 USE_OPENGL_RENDERER := true
-
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/ti/archos/recovery/recovery_keys.c
-ADDITIONAL_RECOVERY_FILES +=  ../../system/core/init/builtins.c 
 BOARD_HAS_NO_SELECT_BUTTON := true
+TARGET_PROVIDES_INIT_RC := true
 #BOARD_USES_SECURE_SERVICES := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -75,11 +73,11 @@ TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 # Connectivity - Wi-Fi
 USES_TI_MAC80211 := true
 #ifdef USES_TI_MAC80211
-#BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-#WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI5
-#BOARD_HOSTAPD_DRIVER             := NL80211
-#BOARD_WLAN_DEVICE                := wl12xx_mac80211
-#BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+WPA_SUPPLICANT_VERSION           := VER_0_8_X_TI
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_WLAN_DEVICE                := wl12xx_mac80211
+BOARD_SOFTAP_DEVICE              := wl12xx_mac80211
 WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wl12xx_sdio.ko"
 WIFI_DRIVER_MODULE_NAME          := "wl12xx_sdio"
 WIFI_FIRMWARE_LOADER             := ""
@@ -93,7 +91,11 @@ BOARD_LIB_DUMPSTATE := libdumpstate.archos
 
 BOARD_VENDOR_TI_GPS_HARDWARE := omap4
 BOARD_GPS_LIBRARIES := libgps
+TARGET_KERNEL_SOURCE := kernel/ti/archos
+TARGET_KERNEL_CONFIG := omapzoom_archos_defconfig
 
 
 # Common device independent definitions
 include device/ti/common-open/BoardConfig.mk
+# include kernel builder
+include device/ti/archos/kernel.mk

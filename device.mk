@@ -45,7 +45,7 @@ endif
 PRODUCT_PACKAGES += \
     Camera \
     CameraOMAP4 
-    #camera_test \
+    camera_test \
 PRODUCT_PACKAGES += \
     power.archos
 
@@ -58,12 +58,15 @@ endif
 #Need to revisit the fastboot copy files
 PRODUCT_COPY_FILES += \
 	$(LOCAL_KERNEL):kernel \
-	device/ti/archos/ueventd.archosa101sboard.rc:root/ueventd.archosa101sboard.rc \
-	device/ti/archos/init.archos-common.rc:root/init.archos-common.rc \
-	device/ti/archos/init.archos-common.rc:root/init.recovery.rc \
+	device/ti/archos/ueventd.all.rc:root/ueventd.archosa101sboard.rc \
+	device/ti/archos/ueventd.all.rc:root/ueventd.archosa101hboard.rc \
+	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80sboard.rc \
+	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80hboard.rc \
+	device/ti/archos/init.rc:root/init.rc \
+	device/ti/archos/init.android.rc:root/init.android.rc \
+	device/ti/archos/init.recovery.rc:root/init.recovery.rc \
 	device/ti/archos/abcbox:root/sbin/abcbox \
 	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-	device/ti/archos/bootanimation.zip:/system/media/bootanimation.zip \
 	device/ti/archos/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
 	device/ti/archos/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
@@ -76,16 +79,18 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml 
 
+# Archos Specific input device configuration files
 PRODUCT_COPY_FILES += \
-	device/ti/archos/idc/cpt_i2c_tsp.idc:system/usr/idc/cpt_i2c_tsp.idc \                                                                                                                                                                                                                                                                
+	device/ti/archos/idc/cpt_i2c_tsp.idc:system/usr/idc/cpt_i2c_tsp.idc \
 	device/ti/archos/idc/cypress-tma340.idc:system/usr/idc/cypress-tma340.idc \
 	device/ti/archos/idc/pixcir_i2c_tsp.idc:system/usr/idc/pixcir_i2c_tsp.idc \
 	device/ti/archos/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
 	device/ti/archos/idc/qwerty.idc:system/usr/idc/qwerty.idc \
 	device/ti/archos/idc/tr16c0_i2c_tsp.idc:system/usr/idc/tr16c0_i2c_tsp.idc
+	
 # to mount the external storage (sdcard)
 PRODUCT_COPY_FILES += \
-	device/ti/archos/recovery.fstab:system/etc/recovery.fstab \
+	device/ti/archos/recovery.fstab:root/sbin/recovery.fstab \
         device/ti/archos/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_PACKAGES += \
@@ -114,16 +119,18 @@ PRODUCT_PACKAGES += \
         VisualizationWallpapers \
 
 
-#PRODUCT_PACKAGES += \
-#	VideoEditorGoogle
+PRODUCT_PACKAGES += \
+	VideoEditorGoogle
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	hwui.render_dirty_regions=false
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mtp,adb
+	ro.secure=0b \
+	persist.sys.bootmode=recovery \
+	#persist.sys.usb.config=
 
-PRODUCT_CHARACTERISTICS := tablet
+PRODUCT_CHARACTERISTICS := nosdcard,tablet
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.opengles.version=131072
@@ -214,11 +221,16 @@ PRODUCT_PACKAGES += \
         tfctrl
 
 # Enable AAC 5.1 decode (decoder)
-#PRODUCT_PROPERTY_OVERRIDES += \
-#	media.aac_51_output_enabled=true
+PRODUCT_PROPERTY_OVERRIDES += \
+	media.aac_51_output_enabled=true
 
 PRODUCT_PACKAGES += \
 	archos_hdcp_keys
+
+# Expirimental Apps
+PRODUCT_PACKAGES += \
+	DreamTheater \
+	VideoChatCameraTestApp
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)

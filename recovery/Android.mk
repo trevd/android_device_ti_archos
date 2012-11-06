@@ -1,7 +1,4 @@
-$(info $(TARGET_DEVICE) - Look but don't touch )
-
 ifeq ($(TARGET_DEVICE),archos)
-$(info Make Device Specific UI Bastard)
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -14,9 +11,6 @@ LOCAL_MODULE := librecovery_ui_archos
 
 include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
-
-
-
 #Edify extension functions for doing bootloader updates on archos devices.
 
 LOCAL_MODULE_TAGS := eng
