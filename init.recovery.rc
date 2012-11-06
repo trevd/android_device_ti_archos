@@ -11,7 +11,7 @@ on init
     symlink /sbin/recovery.fstab /etc/recovery.fstab
 	symlink /sbin/abcbox /sbin/reboot_into
 	symlink /sbin/abcbox /sbin/kd_flasher
-
+	symlink /sbin/res /res
 
     mkdir /boot
     mkdir /sdcard
@@ -26,7 +26,7 @@ on init
     
 
 on fs
-	mount ext4 /dev/block/mmcblk0p4 /partitions 
+	mount ext4 /dev/block/mmcblk0p4 /._ 
     mount rawfs /dev/block/mmcblk0p1 /mnt/rawfs
 
 	mount ext4 loop@/._/DATA /data nosuid nodev
@@ -39,14 +39,21 @@ on boot
     hostname localhost
     domainname localdomain
 
-	exec /sbin/reboot_into sde 
-
     class_start default
 
 service ueventd /sbin/ueventd
     critical
 
 service recovery /sbin/recovery
+	disabled
+
+service checkfs /sbin/checkfs
+	oneshot
+
+
+service abcboot /sbin/reboot_into -s sde
+	oneshot
+	class default
 
 service adbd /sbin/adbd recovery
     disabled
@@ -71,3 +78,8 @@ on property:service.adb.root=1
     write /sys/class/android_usb/android0/enable 0
     restart adbd
     write /sys/class/android_usb/android0/enable 1
+
+on property:service.checkfs.complete=1
+	start recovery
+
+
