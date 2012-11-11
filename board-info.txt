@@ -1,2 +1,2 @@
-require board=Archos_Tablet
+require board=archos
 

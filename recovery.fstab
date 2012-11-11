@@ -4,4 +4,7 @@
 /cache          ext4            /dev/block/loop1
 /system         ext4            /dev/block/loop2
 /sdcard         vfat            /dev/block/mmcblk1p1
+/boot           ext4            /dev/block/loop3
+/recovery       ext4            /dev/block/loop3
+
 

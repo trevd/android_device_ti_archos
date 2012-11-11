@@ -1,58 +1,213 @@
 /*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-#include <fcntl.h>
+
+	checkfs - designed to provide automated creation of ext4 fileimage
+	based system layout. this 
+ 
+*/
 #include <sys/stat.h>
+#include <sys/statfs.h>
 #include <sys/mount.h>
 #include <linux/loop.h>
 #include <make_ext4fs.h>
 #include <cutils/properties.h>
-#include "minui/minui.h"
+#include <cutils/android_reboot.h>
+#include <fcntl.h>
+#include "checkfs.h"
+#include "graphics.h"
+
 
 #define LOOP_SET_FD 0x4C00
-#define IMAGE_EXISTS 0
-#define IMAGE_NOT_FOUND -1
 
-#define CACHE_IMAGE "/._/CAC"
-#define CACHE_LOOP "/dev/block/loop1"
+static void create_ext4fs(int index)
+{
+	draw_formatted_text("making ext4fs for %d\n",partition_image[index].friendly_name);
+	make_ext4fs(	partition_image[index].loop_mount, 0, NULL,0);
+}
+static void create_loopback_device(int index)
+{
+   draw_formatted_text("doing loop_setup");
+    int flags =  O_RDWR;
+    int file_fd = open(partition_image[index].image_name,flags);
+	int device_fd = open(partition_image[index].loop_mount, flags);
+	draw_text_line("Setting up loop device");
+    if (file_fd < -1) {
+        draw_text_line("open backing file failed");
+        return ;
+    }
+    if (device_fd < -1) {
+        draw_text_line("open loop device failed");
+        close(file_fd);
+        return ;
+    }
+    if (ioctl(device_fd, LOOP_SET_FD, file_fd) < 0) {
+        draw_text_line("ioctl LOOP_SET_FD failed");
+        close(file_fd);
+        close(device_fd);
+        return ;
+    }
+    close(file_fd);
+    close(device_fd);
+	return ;
+}
+static void create_partition_image(int index){
+	printf("create_partition_image:%d : %s %s\n",index,partition_image[index].image_name, partition_image[index].friendly_name);
+	draw_formatted_text("create_partition_image:%d : %s %s %lu",index,partition_image[index].image_name, partition_image[index].friendly_name,partition_image[index].block_count);
+	create_raw_partition_image(index);
+	create_loopback_device(index);
+	create_ext4fs(index);
+	partition_image[index].create =0;
+	return;
+}
+static void create_raw_partition_image(int index){
+		
+		int blk_32k[PARTITION_BLOCK_SIZE_32KB]= {0};
+		int fd_out = creat(partition_image[index].image_name,O_RDWR);
+		if(fd_out<0) return ;
 
-#define DATA_IMAGE "/._/DATA"
-#define DATA_LOOP "/dev/block/loop0"
+		long counter=0; long bs = partition_image[index].block_size_kb; long total = partition_image[index].block_count+1;
+		// acey says 10 %		
+		long ACEY =	total / 10;int percent_complete =1;
+		
+		for(counter=0;counter<total;counter++){
+			write(fd_out,blk_32k,bs);
+			if(counter == (ACEY* percent_complete)){
+				draw_formatted_text_horizontal("%d",counter);
+				percent_complete +=1;
+			}	
+		}
+		hoffset = HORIZONTAL_OFFSET_DEFAULT;
+		if(fd_out){
+			fsync(fd_out);
+			close(fd_out);}
+}
+static void check_partition_image(int index){
+	
+	struct stat file_info;
+	if(stat(partition_image[index].image_name, &file_info)==-1)
+		partition_image[index].create=1;
+	else // if the image already exists then remove the size from the requirement
+		space_required_mb -= partition_image[index].size_mb;		
+	return;
 
-#define SYS_IMAGE "/._/SYS"
-#define SYS_LOOP "/dev/block/loop2"
+}
+static int check_avilable_space_mb(){
+    struct statfs st;
+	int freespace_mb = -1;
+    if (statfs(parition_storage_mountpoint, &st) < 0) {
+        fprintf(stderr, "%s: %s\n", parition_storage_mountpoint, strerror(errno));
+		return -1;
+    } else {
+        if (st.f_blocks == 0 )
+            return -1;  
+		freespace_mb = (int)(((((long long)st.f_bfree * (long long)st.f_bsize))/1024)/1024);
+    }
+	return freespace_mb;
+}
 
-#define DATA_BLOCK_COUNT 500000
-#define BLOCK_COUNT_500 = 125000
+static int check_bootmode_recovery(){
+	// make sure we are in recovery mode
+	property_get("ro.bootmode",bootmode,NULL);
+	int res = strncmp(bootmode,"recovery",strlen(bootmode));
+	if(!res)
+		return 1;
+	return 0;
+}
+static void print_error_and_reboot(int error_index){
+	initialize_graphics();
+		if(error_index == ERROR_NUMBER_BOOTMODE)
+		draw_text_line(ERROR_MESSAGE_BOOTMODE);
 
-extern int __system(const char *command);
+		if(error_index == ERROR_NUMBER_NOT_ENOUGH_SPACE)
+				draw_formatted_text(ERROR_MESSAGE_NOT_ENOUGH_SPACE,available_space_mb,space_required_mb);
+		
+		sleep(5);
+		android_reboot(ANDROID_RB_RESTART2, 0, "recovery");
+		return;
+}
+int main(int argc, char **argv)
+{
+	int index, bootmode_recovery; 
+	// do some checks to see if we need to 
+	// display anything, 
+	// 1. Check partition existance
+	for( index =0; index < partition_total; index++)
+		check_partition_image(index);
 
-static int char_width;
-static int char_height;
-static int voffset;
+	// all partitions exist. do nothing
+	if(!space_required_mb) 
+			goto early_exit;		
 
-int create_raw_image(const char* image_file, int count,const char* loop_position);
-void draw_text_line(const char* text);
+	bootmode_recovery =check_bootmode_recovery();
+	available_space_mb  =check_avilable_space_mb();
+	
+	if(available_space_mb<space_required_mb){
+		print_error_and_reboot(ERROR_NUMBER_NOT_ENOUGH_SPACE);
+		goto early_exit;	
+	}
+			
+		
+
+initialize:
+	// we need to create at least one partition
+	// first check we are in recovery
+	if(!bootmode_recovery){
+		print_error_and_reboot(ERROR_NUMBER_BOOTMODE);
+		goto exit;
+	}
+
+	initialize_graphics();		
+
+	for( index =0; index < partition_total; index++){
+		if(partition_image[index].create){
+		    create_partition_image(index);
+			reboot_queued =1 ;
+		}
+	}
+	if(reboot_queued) android_reboot(ANDROID_RB_RESTART2, 0, "recovery");	
+	goto exit;	
+	
+	
+exit:
+	sleep(5);
+early_exit:
+	property_set("service.checkfs.complete","1");
+	return 0;   
+}
+
+//######### GRAPHICS ###################################
+static void initialize_graphics(){
+
+	if(fb_fd) return ;
+		printf("graphics init\n");
+		fb_fd = gr_init();
+	    gr_font_size(&char_width, &char_height);
+		voffset = 20 ;
+		printf("graphics init done\n");
+		clear_screen();
 
 
+}
 static void clear_screen(void)
 {
-    gr_color(255, 0, 0, 0);
+    gr_color(255, 255, 0, 255);
+	//
 };
-
-static int draw_text(const char *str, int x, int y)
+static void draw_formatted_text(const char *fmt, ...)
+{
+	char *strp = NULL;
+	va_list args;
+	va_start(args, fmt);
+	vasprintf(&strp, fmt, args);
+	va_end(args);
+	printf("draw_formatted_text:%s\n",strp);
+	draw_text_line(strp);
+	return ;
+}
+static void draw_text_line(const char* text){
+	draw_text(text,20,voffset);
+	voffset+=char_height;
+}
+static void draw_text(const char *str, int x, int y)
 {
     int str_len_px = gr_measure(str);
 
@@ -61,10 +216,32 @@ static int draw_text(const char *str, int x, int y)
     if (y < 0)
         y = (gr_fb_height() - char_height) / 2;
     gr_text(x, y, str);
-
-    return y + char_height;
+	gr_flip();
+  //  return y + char_height;
 }
-
+static void draw_formatted_text_static(const char *fmt, ...)
+{
+	char *strp = NULL;
+	va_list args;
+	va_start(args, fmt);
+	vasprintf(&strp, fmt, args);
+	va_end(args);
+	printf("draw_formatted_text_static:%s\n",strp);
+	draw_text(strp,20,voffset);
+	return ;
+}
+static void draw_formatted_text_horizontal(const char *fmt, ...)
+{
+	char *strp = NULL;
+	va_list args;
+	va_start(args, fmt);
+	vasprintf(&strp, fmt, args);
+	va_end(args);
+	printf("draw_formatted_text_static:%s\n",strp);
+	draw_text(strp,hoffset,voffset);
+	hoffset += char_width*strlen(strp)+10;
+	return ;
+}
 static void android_green(void)
 {
     gr_color(0xa4, 0xc6, 0x39, 255);
@@ -89,80 +266,4 @@ static void redraw_screen()
 {
     clear_screen();
     gr_flip();
-}
-void draw_text_line(const char* text)
-{
-		draw_text(text,20,voffset);
-		voffset += char_height;
-		gr_flip();
-	return;
-	
-}
-int initialize_graphics(){
-
-		int res = gr_init();
-	    gr_font_size(&char_width, &char_height);
-		voffset = 20 ;
-		clear_screen();
-		return res;		
-}
-static int loop_setup(const char* device,const char * backing_file)
-{
-   
-    int flags = (MS_RDONLY) ? O_RDONLY : O_RDWR;
-    int file_fd = open(backing_file, flags);
-	int device_fd = open(device, flags);
-	draw_text_line("Setting up loop device");
-    if (file_fd < -1) {
-        draw_text_line("open backing file failed");
-        return 1;
-    }
-    if (device_fd < -1) {
-        draw_text_line("open loop device failed");
-        close(file_fd);
-        return 1;
-    }
-    if (ioctl(device_fd, LOOP_SET_FD, file_fd) < 0) {
-        draw_text_line("ioctl LOOP_SET_FD failed");
-        close(file_fd);
-        close(device_fd);
-        return 1;
-    }
-    close(file_fd);
-    close(device_fd);
-	return 0;
-}
-int create_raw_image(const char* image_file, int count,const char* loop_position)
-{
-	 // smash
-    char cmd[4096];
-    sprintf(cmd, "/sbin/dd if=/dev/zero of=%s bs=4096 count=%d", image_file,count);
-	draw_text_line(cmd);
-    if(__system(cmd)) {
-		draw_text_line("Fail");
-        return -1;
-	}
-	loop_setup(loop_position,image_file);
-	draw_text_line("creating ext4 filesystem");
-	return 0;
-}   
-int check_image_file(const char* image_file)
-{
-    struct stat file_info;
-	return stat(image_file, &file_info);
-}
-int main(int argc, char **argv)
-{
-
-	int graphics_initialized = -1;
-	int image_status = check_image_file(CACHE_IMAGE);
-	if( image_status ==  IMAGE_NOT_FOUND ){
-		graphics_initialized = initialize_graphics();
-		create_raw_image(CACHE_IMAGE,125000,CACHE_LOOP);
-	}
-	draw_text_line("Now watch this drive!");
-	sleep(5);
-	property_set("service.checkfs.complete","1");
-	return 0;
-   
 }

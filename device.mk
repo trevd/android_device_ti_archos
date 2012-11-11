@@ -50,7 +50,7 @@ PRODUCT_PACKAGES += \
     power.archos
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/ti/archos/boot/zImage
+LOCAL_KERNEL := device/ti/archos/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -62,8 +62,9 @@ PRODUCT_COPY_FILES += \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa101hboard.rc \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80sboard.rc \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80hboard.rc \
+	device/ti/archos/fstab.archos:root/fstab.archosa101sboard \
 	device/ti/archos/init.rc:root/init.rc \
-	device/ti/archos/init.android.rc:root/init.android.rc \
+	device/ti/archos/init.rc:root/init.android.rc \
 	device/ti/archos/init.recovery.rc:root/init.recovery.rc \
 	device/ti/archos/abcbox:root/sbin/abcbox \
 	device/ti/archos/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
@@ -126,8 +127,7 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	hwui.render_dirty_regions=false
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	ro.secure=0b \
-	persist.sys.bootmode=recovery \
+	ro.secure=0 \
 	#persist.sys.usb.config=
 
 PRODUCT_CHARACTERISTICS := nosdcard,tablet
