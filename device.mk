@@ -62,7 +62,7 @@ PRODUCT_COPY_FILES += \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa101hboard.rc \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80sboard.rc \
 	device/ti/archos/ueventd.all.rc:root/ueventd.archosa80hboard.rc \
-	device/ti/archos/fstab.archos:root/fstab.archosa101sboard \
+	device/ti/archos/fstab.archos:root/fstab.archosa80sboard \
 	device/ti/archos/init.rc:root/init.rc \
 	device/ti/archos/init.rc:root/init.android.rc \
 	device/ti/archos/init.recovery.rc:root/init.recovery.rc \
@@ -227,16 +227,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
 	archos_hdcp_keys
 
-# Expirimental Apps
-PRODUCT_PACKAGES += \
-	DreamTheater \
-	VideoChatCameraTestApp
 
 $(call inherit-product, frameworks/native/build/tablet-dalvik-heap.mk)
 $(call inherit-product, hardware/ti/omap4xxx/omap4.mk)
 #$(call inherit-product-if-exists, vendor/ti/archos/device-vendor.mk)
-$(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)
+#$(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)
 $(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ti-omap4-vendor.mk)
-$(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
+#$(call inherit-product-if-exists, device/ti/proprietary-open/wl12xx/wlan/wl12xx-wlan-fw-products.mk)
 $(call inherit-product-if-exists, device/ti/common-open/s3d/s3d-products.mk)
-$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos.mk)
+#$(call inherit-product-if-exists, device/ti/proprietary-open/omap4/ducati-archos.mk)
+$(call inherit-product-if-exists, device/ti/common-open/cpcam/cpcam-products.mk)
+

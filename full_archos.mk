@@ -28,12 +28,9 @@ $(call inherit-product-if-exists, vendor/ti/proprietary/omap4/ti-omap4-vendor.mk
 $(call inherit-product-if-exists, vendor/ti/archos/Config.mk)
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := archos
+PRODUCT_NAME := full_archos
 PRODUCT_DEVICE := archos
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := archos
 PRODUCT_MANUFACTURER := archos
 
-ifeq ($(BUILD_TINY_ANDROID),true)
-$(info BUILDING TINY BUILD)
-endif

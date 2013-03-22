@@ -3,9 +3,9 @@
 # The filesystem that contains the filesystem checker binary (typically /system) cannot
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 
-/dev/block/loop0          /data               ext4      discard,noatime,nosuid,nodev,nomblk_io_submit,errors=panic    wait
-/dev/block/loop1          /cache              ext4      discard,noatime,nosuid,nodev,nomblk_io_submit,errors=panic    wait
-/dev/block/loop2          /system             ext4      rw                                                            wait
+/dev/block/mmcblk0p4	/data               ext4      discard,noatime,nosuid,nodev,nomblk_io_submit,errors=panic    wait
+/dev/block/mmcblk0p2	/cache              ext4      discard,noatime,nosuid,nodev,nomblk_io_submit,errors=panic    wait
+/dev/block/mmcblk0p3	/system             ext4      rw                                                            wait
 
 
 
